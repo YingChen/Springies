@@ -3,6 +3,10 @@ package simulation;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+
+import forces.Force;
+
 import util.Location;
 import util.Pixmap;
 import util.Sprite;
@@ -21,8 +25,10 @@ public class Mass extends Sprite {
 
     private double myMass;
     private Vector myAcceleration;
+    private boolean isFixed;
+    
 
-
+    /** Hello World **/
     /**
      * XXX.
      */
@@ -30,6 +36,10 @@ public class Mass extends Sprite {
         super(DEFUALT_IMAGE, new Location(x, y), DEFAULT_SIZE);
         myMass = mass;
         myAcceleration = new Vector();
+        if(mass >0)
+        	isFixed = false;
+        else 
+        	isFixed = true;
     }
 
     /**
@@ -37,12 +47,14 @@ public class Mass extends Sprite {
      */
     @Override
     public void update (double elapsedTime, Dimension bounds) {
-        applyForce(getBounce(bounds));
-        // convert force back into Mover's velocity
-        getVelocity().sum(myAcceleration);
-        myAcceleration.reset();
-        // move mass by velocity
-        super.update(elapsedTime, bounds);
+    	if(!isFixed){
+    		applyForce(getBounce(bounds));
+    		// convert force back into Mover's velocity
+    		getVelocity().sum(myAcceleration);
+    		myAcceleration.reset();
+    		// move mass by velocity
+    		super.update(elapsedTime, bounds);
+    	}
     }
 
     /**
@@ -58,7 +70,15 @@ public class Mass extends Sprite {
      * Use the given force to change this mass's acceleration.
      */
     public void applyForce (Vector force) {
+    	if (isFixed) return;
+    	// Calculate the net force as a result of all Forces
         myAcceleration.sum(force);
+    }
+    
+    public void applyForce (Force force) {
+    	if (isFixed) return;
+    	myAcceleration.sum(force.calculateForce(this));
+    
     }
 
     /**
@@ -88,5 +108,9 @@ public class Mass extends Sprite {
         }
         impulse.scale(getVelocity().getRelativeMagnitude(impulse));
         return impulse;
+    }
+    
+    public double getMass(){
+    	return myMass;
     }
 }
