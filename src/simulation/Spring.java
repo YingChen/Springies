@@ -40,7 +40,7 @@ public class Spring extends Sprite {
      */
     @Override
     public void paint (Graphics2D pen) {
-        pen.setColor(getColor(myStart.distance(myEnd) - myLength));
+    	pen.setColor(getColor(myStart.distance(myEnd) - myLength));
         pen.drawLine((int)myStart.getX(), (int)myStart.getY(), (int)myEnd.getX(), (int)myEnd.getY());
     }
 

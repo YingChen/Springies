@@ -16,7 +16,9 @@ public class Viscosity extends Force {
 
 	@Override
 	public Vector calculateForce(Mass mass) {
-		mass.getVelocity().negate();
-		return new Vector(mass.getVelocity().getDirection(), kValue*mass.getVelocity().getMagnitude());
+		Vector temp = mass.getVelocity();
+		temp.negate();
+		temp.scale(kValue);
+		return temp;
 	}
 }
