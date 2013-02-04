@@ -19,10 +19,10 @@ public class Spring extends Sprite {
     public static final Pixmap DEFUALT_IMAGE = new Pixmap("spring.gif");
     public static final int IMAGE_HEIGHT = 20;
 
-    private Mass myStart;
-    private Mass myEnd;
-    private double myLength;
-    private double myK;
+    protected Mass myStart;
+    protected Mass myEnd;
+    protected double myLength;
+    protected double myK;
 
     /**
      * XXX.
@@ -73,12 +73,12 @@ public class Spring extends Sprite {
     }
 
     // compute center of this spring
-    private static Location getCenter (Mass start, Mass end) {
+    public static Location getCenter (Mass start, Mass end) {
         return new Location((start.getX() + end.getX()) / 2, (start.getY() + end.getY()) / 2);
     }
 
     // compute size of this spring
-    private static Dimension getSize (Mass start, Mass end) {
+    public static Dimension getSize (Mass start, Mass end) {
         return new Dimension((int)start.distance(end), IMAGE_HEIGHT);
     }
 }

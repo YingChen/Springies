@@ -38,7 +38,7 @@ public class Vector {
      */
     public Vector (Point2D source, Point2D target) {
         double dx = target.getX() - source.getX();
-        double dy = source.getY() - target.getY();
+        double dy = target.getY() - source.getY();
         setDirection(angleBetween(dx, dy));
         setMagnitude(distanceBetween(dx, dy));
     }
@@ -90,7 +90,7 @@ public class Vector {
     /**
      * Sets this vector's magnitude to the given value.
      */
-    protected void setMagnitude (double value) {
+    public void setMagnitude (double value) {
         myMagnitude = value;
     }
 
