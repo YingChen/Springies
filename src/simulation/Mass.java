@@ -3,7 +3,7 @@ package simulation;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
+import java.util.Scanner;
 
 import forces.Force;
 
@@ -41,6 +41,7 @@ public class Mass extends Sprite {
         else 
         	isFixed = true;
     }
+
 
     /**
      * XXX.
