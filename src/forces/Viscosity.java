@@ -3,7 +3,7 @@ package forces;
 import simulation.Mass;
 import util.Vector;
 
-public class Viscosity extends Force {
+public class Viscosity extends Vector implements Force {
 	
 	public final static String FORCE_NAME = "viscosity";
 

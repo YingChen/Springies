@@ -6,7 +6,7 @@ import simulation.Mass;
 import util.Vector;
 import view.Canvas;
 
-public class Repulsion extends Force {
+public class Repulsion extends Vector implements Force {
 	
 	public final static String FORCE_NAME = "repulsion";
 
@@ -47,7 +47,9 @@ public class Repulsion extends Force {
 		}
 		double vectorMagnitude = magnitude*Math.pow(Vector.distanceBetween(new Point((int) dx, (int) dy), new Point((int) mass.getX(), (int) mass.getY())), exponentValue);
 		
-		return new Vector(vectorDirection, vectorMagnitude);
+		Vector temp = new Vector(vectorDirection, vectorMagnitude);
+		temp.sum(mass.getVelocity());
+		return temp;
 	}
 	
 }

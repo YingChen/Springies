@@ -68,7 +68,7 @@ public class Model {
     public void updateForces () {
     	for (Mass m : myMasses) {
     		for (Force force : myForces) {
-    			m.applyForce(force);
+    			m.setForce(force);
     		}
     	}
     }

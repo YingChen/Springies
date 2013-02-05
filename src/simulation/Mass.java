@@ -81,6 +81,13 @@ public class Mass extends Sprite {
 		myAcceleration.sum(force.calculateForce(this));
 
 	}
+	
+	public void setForce(Force force) {
+		if (isFixed)
+			return;
+		myAcceleration = force.calculateForce(this);
+
+	}
 
 	/**
 	 * Convenience method.

@@ -6,7 +6,7 @@ import java.util.List;
 import simulation.Mass;
 import util.Vector;
 
-public class CenterOfMass extends Force {
+public class CenterOfMass extends Vector implements Force {
 
 	public final static String FORCE_NAME = "centerOfMass";
 	

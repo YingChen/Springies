@@ -3,12 +3,8 @@ package forces;
 import simulation.Mass;
 import util.Vector;
 
-public abstract class Force extends Vector {
-
-	public Vector force;
+public interface Force {
 	
-	public String FORCE_NAME;
-	
-	public abstract Vector calculateForce(Mass mass);
+	public Vector calculateForce(Mass mass);
 	
 }
