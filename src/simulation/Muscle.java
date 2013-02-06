@@ -4,6 +4,11 @@ import java.awt.Dimension;
 
 import util.Vector;
 
+/**
+ * This is designed for the muscle objects
+ * @author Eric Wu
+ *
+ */
 public class Muscle extends Spring {
 	private double amplitude;
 	private double startTime;
@@ -14,6 +19,9 @@ public class Muscle extends Spring {
 		startTime = System.currentTimeMillis();
 	}
 
+	/**
+	 * Update the status of the muscle
+	 */
 	@Override
 	public void update(double elapsedTime, Dimension bounds) {
 		double dx = myStart.getX() - myEnd.getX();

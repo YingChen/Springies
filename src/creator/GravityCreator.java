@@ -6,6 +6,12 @@ import forces.Gravity;
 
 import simulation.Factory;
 
+
+/**
+ * This creator creates gravity force objects
+ * @author Ying Chen
+ *
+ */
 public class GravityCreator extends Creator{
 
 	public GravityCreator(Factory f) {
@@ -16,7 +22,8 @@ public class GravityCreator extends Creator{
 	public void create(Scanner line){
 		int direction = line.nextInt();
         int magnitude = line.nextInt();
-    	myFactory.addForceToModel(new Gravity(direction, magnitude));
+
+        getFactory().addForceToModel(new Gravity(direction, magnitude));
 	}
 
 }

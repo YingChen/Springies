@@ -6,6 +6,12 @@ import forces.Repulsion;
 
 import simulation.Factory;
 
+
+/**
+ * This creator creates repulsion force objects
+ * @author Ying Chen
+ *
+ */
 public class RepulsionCreator extends Creator{
 
 	public RepulsionCreator(Factory f) {
@@ -17,7 +23,8 @@ public class RepulsionCreator extends Creator{
 		int wallID = line.nextInt();
         double magnitude = line.nextDouble();
         double exponentValue = line.nextDouble();
-    	myFactory.addForceToModel(new Repulsion(wallID, magnitude, exponentValue));
+
+        getFactory().addForceToModel(new Repulsion(wallID, magnitude, exponentValue));
 	}
 
 }

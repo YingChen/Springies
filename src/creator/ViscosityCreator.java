@@ -6,6 +6,12 @@ import forces.Viscosity;
 
 import simulation.Factory;
 
+/**
+ * This creator creates viscosity force objects
+ * @author Ying Chen
+ *
+ */
+
 public class ViscosityCreator extends Creator{
 
 	public ViscosityCreator(Factory f) {
@@ -15,7 +21,8 @@ public class ViscosityCreator extends Creator{
 	@Override
 	public void create(Scanner line){
 		double scale = line.nextDouble();
-		myFactory.addForceToModel(new Viscosity(scale));
+
+		getFactory().addForceToModel(new Viscosity(scale));
 	}
 
 }

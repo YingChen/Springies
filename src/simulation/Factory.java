@@ -21,9 +21,10 @@ import forces.*;
 
 
 /**
- * XXX
+ * This class reads the files and creates all the objects, including masses, springs and forces.
  * 
  * @author Robert C. Duvall
+ * revised by Ying Chen
  */
 public class Factory {
 
@@ -46,6 +47,10 @@ public class Factory {
     	initCreators();
     }
     
+
+    /**
+     * Initialize all the creators. These creators can be obtained via the keywords
+     */
     private void initCreators(){
     	myCreators.put(MASS_KEYWORD, new MassCreator(this));
     	myCreators.put(SPRING_KEYWORD, new SpringCreator(this));
@@ -57,7 +62,8 @@ public class Factory {
     }
 
     /**
-     * XXX.
+
+     * Load the files and initialize the game model
      */
     public void loadModel (Model model, File modelFile) {
     	myModel = model;
@@ -84,6 +90,11 @@ public class Factory {
         }
     }
 
+
+    /**
+     * Return the list of masses
+     * @return
+     */
     public List<Mass> getMasses(){
     	List<Mass> list = new ArrayList<Mass>();
     	for(Mass m: myMasses.values()){
@@ -105,7 +116,12 @@ public class Factory {
     public void addSpringToModel(Spring s){
     	myModel.add(s);
     }
-    
+
+    /**
+     * Get the mass via its id
+     * @param id
+     * @return
+     */
     public Mass getMass(int id){
     	return myMasses.get(id);
     }

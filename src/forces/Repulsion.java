@@ -6,23 +6,28 @@ import simulation.Mass;
 import util.Vector;
 import view.Canvas;
 
+/**
+ * This is designed for repulsion force objects
+ * @author Eric Wu
+ *
+ */
 public class Repulsion extends Vector implements Force {
-	
+
 	public final static String FORCE_NAME = "repulsion";
 
-	int wallID;
-	
-	double magnitude;
-	
-	double exponentValue;
-	
-	public Repulsion (int wall, double mag, double exp) {
+	private int wallID;
+	private double magnitude;
+	private double exponentValue;
+
+	public Repulsion(int wall, double mag, double exp) {
 		wallID = wall;
 		magnitude = mag;
 		exponentValue = exp;
 	}
-	
 
+	/**
+	 * Calculate the force on the mass
+	 */
 	@Override
 	public Vector calculateForce(Mass mass) {
 		double dx = 0;
@@ -45,11 +50,15 @@ public class Repulsion extends Vector implements Force {
 			dx = 0;
 			dy = mass.getY();
 		}
-		double vectorMagnitude = magnitude*Math.pow(Vector.distanceBetween(new Point((int) dx, (int) dy), new Point((int) mass.getX(), (int) mass.getY())), exponentValue);
-		
+		double vectorMagnitude = magnitude
+				* Math.pow(Vector.distanceBetween(
+						new Point((int) dx, (int) dy),
+						new Point((int) mass.getX(), (int) mass.getY())),
+						exponentValue);
+
 		Vector temp = new Vector(vectorDirection, vectorMagnitude);
 		temp.sum(mass.getVelocity());
 		return temp;
 	}
-	
+
 }

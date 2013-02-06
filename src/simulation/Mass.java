@@ -1,6 +1,9 @@
 package simulation;
 
+import java.awt.Color;
 import java.awt.Dimension;
+
+import java.awt.Graphics2D;
 
 import forces.Force;
 
@@ -10,9 +13,10 @@ import util.Sprite;
 import util.Vector;
 
 /**
- * XXX.
+ * This is designed for mass objects in the game
  * 
  * @author Robert C. Duvall
+ * revised by Ying Chen
  */
 public class Mass extends Sprite {
 	// reasonable default values
@@ -21,58 +25,53 @@ public class Mass extends Sprite {
 
 	private double myMass;
 	private Vector myAcceleration;
-	private boolean isFixed;
 
-	/** Hello World **/
 	/**
-	 * XXX.
+	 * Constructor
 	 */
 	public Mass(double x, double y, double mass) {
 		super(DEFUALT_IMAGE, new Location(x, y), DEFAULT_SIZE);
 		myMass = mass;
 		myAcceleration = new Vector();
-		if (mass > 0)
-			isFixed = false;
-		else
-			isFixed = true;
 	}
 
 	/**
-	 * XXX.
+	 * This updates the status of the object
 	 */
 	@Override
 	public void update(double elapsedTime, Dimension bounds) {
-		if (!isFixed) {
 			applyForce(getBounce(bounds));
 			// convert force back into Mover's velocity
 			getVelocity().sum(myAcceleration);
 			myAcceleration.reset();
 			// move mass by velocity
 			super.update(elapsedTime, bounds);
-		}
 	}
 
-	public void setForce(Force force) {
-		if (isFixed)
-			return;
-		myAcceleration = force.calculateForce(this);
+	/**
+	 * This paints the object onto the panel
+	 */
+	@Override
+	public void paint(Graphics2D pen) {
+		pen.setColor(Color.BLACK);
+		pen.fillOval((int) getLeft(), (int) getTop(), (int) getWidth(),
+				(int) getHeight());
 	}
 
 	/**
 	 * Use the given force to change this mass's acceleration.
 	 */
 	public void applyForce(Vector force) {
-		if (isFixed)
-			return;
 		// Calculate the net force as a result of all Forces
 		myAcceleration.sum(force);
 	}
 
 	public void applyForce(Force force) {
-		if (isFixed)
-			return;
 		myAcceleration.sum(force.calculateForce(this));
+	}
 
+	public void setForce(Force force) {
+		myAcceleration = force.calculateForce(this);
 	}
 
 	/**
@@ -105,5 +104,4 @@ public class Mass extends Sprite {
 	public double getMass() {
 		return myMass;
 	}
-
 }
