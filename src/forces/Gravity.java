@@ -3,7 +3,11 @@ package forces;
 import simulation.Mass;
 import util.Vector;
 
+<<<<<<< HEAD
 public class Gravity extends Vector implements Force {
+=======
+public class Gravity extends Force {
+>>>>>>> 3b8f7a437a40f52c1fd580dc3f7f4a15b7f7c6cb
 
 	//Vector force;
 	private int myDirection;
@@ -18,9 +22,13 @@ public class Gravity extends Vector implements Force {
 
 	@Override
 	public Vector calculateForce(Mass mass) {
+<<<<<<< HEAD
 		Vector temp = mass.getVelocity();
 		temp.sum(new Vector(myDirection, myMagnitude*mass.getMass()));
 		return temp;
+=======
+		return new Vector(myDirection, myMagnitude*mass.getMass());
+>>>>>>> 3b8f7a437a40f52c1fd580dc3f7f4a15b7f7c6cb
 	}
 	
 	
