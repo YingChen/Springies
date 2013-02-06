@@ -6,12 +6,17 @@ import java.util.List;
 import simulation.Mass;
 import util.Vector;
 
+/**
+ * This is designed for centerOfMass force objects
+ * @author Ying Chen
+ *
+ */
 public class CenterOfMass extends Vector implements Force {
 
 	public final static String FORCE_NAME = "centerOfMass";
 	
-	double magnitude;
-	double exponentValue;
+	private double magnitude;
+	private double exponentValue;
 	private List<Mass> list;
 	private Point2D centerOfMass;
 
@@ -20,6 +25,10 @@ public class CenterOfMass extends Vector implements Force {
 		exponentValue = exp;
 	}
 	
+	/**
+	 * Calculate the force on the mass.
+	 * Override the method in the super class.
+	 */
 	@Override
 	public Vector calculateForce(Mass mass) {
 		getCenterOfMass();
@@ -39,10 +48,17 @@ public class CenterOfMass extends Vector implements Force {
 			
 	}
 	
+	/**
+	 * Assign the list of all masses
+	 * @param l
+	 */
 	public void addMassList(List<Mass> l){
 		list = l;
 	}
 	
+	/**
+	 * Calculate the center of all the masses
+	 */
 	private void getCenterOfMass(){
 		double totalMass = 0;
 		double x = 0;

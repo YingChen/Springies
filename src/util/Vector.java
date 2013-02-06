@@ -37,8 +37,8 @@ public class Vector {
      * direction and distance between the two given points.
      */
     public Vector (Point2D source, Point2D target) {
-    	double dx = target.getX() - source.getX();
-    	double dy = target.getY() - source.getY();
+        double dx = target.getX() - source.getX();
+        double dy = target.getY() - source.getY();
         setDirection(angleBetween(dx, dy));
         setMagnitude(distanceBetween(dx, dy));
     }
@@ -115,7 +115,7 @@ public class Vector {
      * Adjusts this vector's direction by the given change value.
      */
     public void turn (double change) {
-        setDirection((getDirection() + change) % 360);
+        setDirection(getDirection() + change);
     }
 
     /**
@@ -235,7 +235,8 @@ public class Vector {
      * Returns the angle represented by the given dx and dy
      */
     public static double angleBetween (double dx, double dy) {
-        return Math.toDegrees(Math.atan2(dy, dx));
+        // TODO: this is still buggy :(
+        return 180 - Math.toDegrees(Math.atan2(dy, dx));
     }
 
     /**

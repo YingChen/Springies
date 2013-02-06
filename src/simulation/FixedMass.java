@@ -1,67 +1,36 @@
 package simulation;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.util.ArrayList;
 
-import forces.Force;
-
-import util.Location;
 import util.Pixmap;
-import util.Sprite;
-import util.Vector;
 
 
 /**
- * XXX.
+ * This class is designed for fixedmass object.It performs as the subclass of Mass. 
+ * It only overrides the update() method.
  * 
- * @author Robert C. Duvall
+ * @author Ying Chen
  */
 public class FixedMass extends Mass {    
 
 	// reasonable default values
     public static final Dimension DEFAULT_SIZE = new Dimension(16, 16);
     public static final Pixmap DEFUALT_IMAGE = new Pixmap("mass.gif");
-
-    private double myMass;
-    private Location myLocation;
     
-    /** Hello World **/
+    
     /**
-     * XXX.
+     * Constructor of this class
      */
     public FixedMass (double x, double y, double mass) {
     	super (x, y, mass);
-    	myLocation = new Location(x, y);
-        myMass = mass;
     }
 
     /**
-     * XXX.
+     * This update the status of the object. Override the method in mass class.
      */
     @Override
     public void update (double elapsedTime, Dimension bounds) {
-        // move mass by velocity
-        super.update(elapsedTime, bounds);
-    }
-
-    /**
-     * XXX.
-     */
-    @Override
-    public void paint (Graphics2D pen) {
-        pen.setColor(Color.BLACK);
-        pen.fillOval((int)getLeft(), (int)getTop(), (int)getWidth(), (int)getHeight());
-    }
-
-
-    /**
-     * Convenience method.
-     */
-    public double distance (Mass other) {
-        // this is a little awkward, so hide it
-        return new Location(getX(), getY()).distance(new Location(other.getX(), other.getY()));
+    	
     }
 
 

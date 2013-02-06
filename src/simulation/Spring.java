@@ -10,9 +10,10 @@ import util.Vector;
 
 
 /**
- * XXX.
+ * This performs as the spring objects in the game
  * 
  * @author Robert C. Duvall
+ * revised by Ying Chen
  */
 public class Spring extends Sprite {
     // reasonable default values
@@ -25,7 +26,7 @@ public class Spring extends Sprite {
     protected double myK;
 
     /**
-     * XXX.
+     * Constructor
      */
     public Spring (Mass start, Mass end, double length, double kVal) {
         super(DEFUALT_IMAGE, getCenter(start, end), getSize(start, end));
@@ -36,16 +37,16 @@ public class Spring extends Sprite {
     }
 
     /**
-     * XXX.
+     * Paint the object onto the panel 
      */
     @Override
     public void paint (Graphics2D pen) {
-    	pen.setColor(getColor(myStart.distance(myEnd) - myLength));
+        pen.setColor(getColor(myStart.distance(myEnd) - myLength));
         pen.drawLine((int)myStart.getX(), (int)myStart.getY(), (int)myEnd.getX(), (int)myEnd.getY());
     }
 
     /**
-     * XXX.
+     * Update the status of the object
      */
     @Override
     public void update (double elapsedTime, Dimension bounds) {

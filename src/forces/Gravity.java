@@ -3,9 +3,13 @@ package forces;
 import simulation.Mass;
 import util.Vector;
 
+/**
+ * This is designed for the gravity force objects
+ * @author Eric Wu
+ *
+ */
 public class Gravity extends Vector implements Force {
 
-	//Vector force;
 	private int myDirection;
 	private int myMagnitude;
 	
@@ -16,13 +20,13 @@ public class Gravity extends Vector implements Force {
 		myMagnitude = magnitude;
 	}
 
+	/**
+	 * Calculate the force on the mass
+	 */
 	@Override
 	public Vector calculateForce(Mass mass) {
 		Vector temp = mass.getVelocity();
 		temp.sum(new Vector(myDirection, myMagnitude*mass.getMass()));
 		return temp;
 	}
-	
-	
-
 }

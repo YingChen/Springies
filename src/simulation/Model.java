@@ -10,9 +10,9 @@ import view.Canvas;
 
 
 /**
- * XXX.
+ * This performs as the game model
  * 
- * @author Robert C. Duvall
+ * @author Robert C. Duvall revised by Ying Chen	
  */
 public class Model {
     // bounds and input for game
