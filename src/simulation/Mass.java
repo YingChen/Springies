@@ -1,13 +1,6 @@
 package simulation;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
-<<<<<<< HEAD
-import java.util.ArrayList;
-=======
-import java.util.Scanner;
->>>>>>> 3b8f7a437a40f52c1fd580dc3f7f4a15b7f7c6cb
 
 import forces.Force;
 
@@ -44,7 +37,6 @@ public class Mass extends Sprite {
 			isFixed = true;
 	}
 
-<<<<<<< HEAD
 	/**
 	 * XXX.
 	 */
@@ -60,14 +52,10 @@ public class Mass extends Sprite {
 		}
 	}
 
-	/**
-	 * XXX.
-	 */
-	@Override
-	public void paint(Graphics2D pen) {
-		pen.setColor(Color.BLACK);
-		pen.fillOval((int) getLeft(), (int) getTop(), (int) getWidth(),
-				(int) getHeight());
+	public void setForce(Force force) {
+		if (isFixed)
+			return;
+		myAcceleration = force.calculateForce(this);
 	}
 
 	/**
@@ -84,68 +72,8 @@ public class Mass extends Sprite {
 		if (isFixed)
 			return;
 		myAcceleration.sum(force.calculateForce(this));
-=======
-    private double myMass;
-    private Vector myAcceleration;
-    private boolean isFixed;
-    
-
-    /** Hello World **/
-    /**
-     * XXX.
-     */
-    public Mass (double x, double y, double mass) {
-        super(DEFUALT_IMAGE, new Location(x, y), DEFAULT_SIZE);
-        myMass = mass;
-        myAcceleration = new Vector();
-        if(mass >0)
-        	isFixed = false;
-        else 
-        	isFixed = true;
-    }
-
-
-    /**
-     * XXX.
-     */
-    @Override
-    public void update (double elapsedTime, Dimension bounds) {
-    	if(!isFixed){
-    		applyForce(getBounce(bounds));
-    		// convert force back into Mover's velocity
-    		getVelocity().sum(myAcceleration);
-    		myAcceleration.reset();
-    		// move mass by velocity
-    		super.update(elapsedTime, bounds);
-    	}
-    }
->>>>>>> 3b8f7a437a40f52c1fd580dc3f7f4a15b7f7c6cb
 
 	}
-	
-	public void setForce(Force force) {
-		if (isFixed)
-			return;
-		myAcceleration = force.calculateForce(this);
-
-<<<<<<< HEAD
-	}
-=======
-    /**
-     * Use the given force to change this mass's acceleration.
-     */
-    public void applyForce (Vector force) {
-    	if (isFixed) return;
-    	// Calculate the net force as a result of all Forces
-        myAcceleration.sum(force);
-    }
-    
-    public void applyForce (Force force) {
-    	if (isFixed) return;
-    	myAcceleration.sum(force.calculateForce(this));
-    
-    }
->>>>>>> 3b8f7a437a40f52c1fd580dc3f7f4a15b7f7c6cb
 
 	/**
 	 * Convenience method.
@@ -174,33 +102,8 @@ public class Mass extends Sprite {
 		return impulse;
 	}
 
-<<<<<<< HEAD
 	public double getMass() {
 		return myMass;
 	}
-=======
-    // check for move out of bounds
-    private Vector getBounce (Dimension bounds) {
-        final double IMPULSE_MAGNITUDE = 2;
-        Vector impulse = new Vector();
-        if (getLeft() < 0) {
-            impulse = new Vector(RIGHT_DIRECTION, IMPULSE_MAGNITUDE);
-        }
-        else if (getRight() > bounds.width) {
-            impulse = new Vector(LEFT_DIRECTION, IMPULSE_MAGNITUDE);
-        }
-        if (getTop() < 0) {
-            impulse = new Vector(DOWN_DIRECTION, IMPULSE_MAGNITUDE);
-        }
-        else if (getBottom() > bounds.height) {
-            impulse = new Vector(UP_DIRECTION, IMPULSE_MAGNITUDE);
-        }
-        impulse.scale(getVelocity().getRelativeMagnitude(impulse));
-        return impulse;
-    }
-    
-    public double getMass(){
-    	return myMass;
-    }
->>>>>>> 3b8f7a437a40f52c1fd580dc3f7f4a15b7f7c6cb
+
 }
