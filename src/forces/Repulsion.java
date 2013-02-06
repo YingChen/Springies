@@ -8,8 +8,9 @@ import view.Canvas;
 
 /**
  * This is designed for repulsion force objects
+ * 
  * @author Eric Wu
- *
+ * 
  */
 public class Repulsion extends Vector implements Force {
 

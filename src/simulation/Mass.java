@@ -15,8 +15,7 @@ import util.Vector;
 /**
  * This is designed for mass objects in the game
  * 
- * @author Robert C. Duvall
- * revised by Ying Chen
+ * @author Robert C. Duvall revised by Ying Chen
  */
 public class Mass extends Sprite {
 	// reasonable default values
@@ -40,12 +39,12 @@ public class Mass extends Sprite {
 	 */
 	@Override
 	public void update(double elapsedTime, Dimension bounds) {
-			applyForce(getBounce(bounds));
-			// convert force back into Mover's velocity
-			getVelocity().sum(myAcceleration);
-			myAcceleration.reset();
-			// move mass by velocity
-			super.update(elapsedTime, bounds);
+		applyForce(getBounce(bounds));
+		// convert force back into Mover's velocity
+		getVelocity().sum(myAcceleration);
+		myAcceleration.reset();
+		// move mass by velocity
+		super.update(elapsedTime, bounds);
 	}
 
 	/**
