@@ -12,7 +12,7 @@ import simulation.Factory;
  * 
  */
 
-public class Creator {
+public abstract class Creator {
 	private Factory myFactory;
 
 	public Creator(Factory f) {
@@ -29,7 +29,5 @@ public class Creator {
 	 * 
 	 * @param line
 	 */
-	public void create(Scanner line) {
-
-	}
+	public abstract void create(Scanner line);
 }
