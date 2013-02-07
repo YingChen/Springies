@@ -89,13 +89,13 @@ public class Spring extends Sprite {
 	}
 
 	// compute center of this spring
-	public static Location getCenter(Mass start, Mass end) {
+	private static Location getCenter(Mass start, Mass end) {
 		return new Location((start.getX() + end.getX()) / 2,
 				(start.getY() + end.getY()) / 2);
 	}
 
 	// compute size of this spring
-	public static Dimension getSize(Mass start, Mass end) {
+	private static Dimension getSize(Mass start, Mass end) {
 		return new Dimension((int) start.distance(end), IMAGE_HEIGHT);
 	}
 }
