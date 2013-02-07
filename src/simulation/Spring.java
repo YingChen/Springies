@@ -71,7 +71,7 @@ public class Spring extends Sprite {
 	 * @param dy
 	 * @return
 	 */
-	private Vector getForce(double dx, double dy) {
+	protected Vector getForce(double dx, double dy) {
 		return new Vector(Vector.angleBetween(dx, dy), myK
 				* (myLength - Vector.distanceBetween(dx, dy)));
 	}
