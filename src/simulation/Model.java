@@ -31,7 +31,6 @@ public class Model {
         myMasses = new ArrayList<Mass>();
         mySprings = new ArrayList<Spring>();
         myForces = new ArrayList<Force>();
-
     }
     
 
@@ -93,4 +92,11 @@ public class Model {
     public void add (Force force) {
     	myForces.add(force);
     }
+    
+    public void clearAll(){
+    	myMasses.clear();
+    	mySprings.clear();
+    	myForces.clear();
+    }
+    
 }
