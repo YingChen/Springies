@@ -2,7 +2,11 @@ package simulation;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+<<<<<<< HEAD
 import java.util.HashMap;
+=======
+import java.awt.Point;
+>>>>>>> Part 3 [2] Mouse Dragging by Ying
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -22,7 +26,13 @@ public class Model {
     private List<Mass> myMasses;
     private List<Spring> mySprings;
     private List<Force> myForces;
+<<<<<<< HEAD
     private Map<Force, Boolean> myForcesStatus;
+=======
+    
+    private Spring tempSpring;
+    private Mass tempMass;
+>>>>>>> Part 3 [2] Mouse Dragging by Ying
 
     /**
      * Create a game of the given size with the given display for its shapes.
@@ -106,6 +116,7 @@ public class Model {
         for (Force force : myForcesStatus.keySet())
             myForcesStatus.put(force, true);
     }
+<<<<<<< HEAD
 
     public void clearAll () {
         myMasses.clear();
@@ -113,4 +124,48 @@ public class Model {
         myForces.clear();
     }
 
+=======
+    
+    public void createTempSpring(Point position){
+    	tempMass = new Mass(position.getX(),position.getY(),0);
+    	Mass closestMass = findClosestMass(position);
+    	tempSpring = new Spring(tempMass,closestMass,length(position,closestMass.getX(),closestMass.getY()),0.5);
+    	
+    	myMasses.add(tempMass);
+    	mySprings.add(tempSpring);
+    }
+    
+    private Mass findClosestMass(Point p){
+    	Mass closestMass = null;
+    	double closestLength = Double.POSITIVE_INFINITY;
+    	for(Mass m: myMasses){
+    		double length = length(p,m.getX(),m.getY());
+    		//System.out.println("length is "+length);
+    		if(length < closestLength){
+    			closestMass = m;
+    			closestLength = length;
+    		}
+    	}
+    	if(closestMass == null)
+    		System.out.println("NUll!!!!");
+    	return closestMass;
+    }
+    
+    private double length(Point p, double x, double y){
+    	//System.out.println(p.getX()+" "+p.getY()+" "+x+" "+y);
+    	return Math.pow((p.getX()-x), 2)+Math.pow((p.getY()-y), 2);
+    }
+    
+    public void dragTempSpring(Point p){
+    	tempMass.setCenter(p.getX(), p.getY());
+    }
+    
+    public void removeTempObjects(){
+    	myMasses.remove(tempMass);
+    	mySprings.remove(tempSpring);
+    	tempMass = null;
+    	tempSpring = null;
+    }
+    
+>>>>>>> Part 3 [2] Mouse Dragging by Ying
 }
