@@ -3,6 +3,7 @@ package forces;
 import simulation.Mass;
 import util.Vector;
 
+
 /**
  * This is the interface for the force objects
  * 
@@ -11,5 +12,5 @@ import util.Vector;
  */
 public interface Force {
 
-	public Vector calculateForce(Mass mass);
+    public Vector calculateForce (Mass mass);
 }
