@@ -2,11 +2,9 @@ package simulation;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
-import forces.Force;
+import forces.*;
 import view.Canvas;
 
 
@@ -22,7 +20,7 @@ public class Model {
     private List<Mass> myMasses;
     private List<Spring> mySprings;
     private List<Force> myForces;
-    private Map<Force, Boolean> myForcesStatus;
+    private List<Force> myRemovedForces;
 
     /**
      * Create a game of the given size with the given display for its shapes.
@@ -32,8 +30,7 @@ public class Model {
         myMasses = new ArrayList<Mass>();
         mySprings = new ArrayList<Spring>();
         myForces = new ArrayList<Force>();
-        myForcesStatus = new HashMap<Force, Boolean>();
-        resetForcesStatus();
+        myRemovedForces = new ArrayList<Force>();
     }
 
     /**
@@ -71,11 +68,11 @@ public class Model {
             m.setSize(x, y);
         }
     }
+
     public void updateForces () {
         for (Mass m : myMasses) {
             for (Force force : myForces) {
-                if (myForcesStatus.get(force))
-                    m.setForce(force);
+                m.setForce(force);
             }
         }
     }
@@ -102,9 +99,74 @@ public class Model {
         myForces.add(force);
     }
 
-    private void resetForcesStatus () {
-        for (Force force : myForcesStatus.keySet())
-            myForcesStatus.put(force, true);
+    /**
+     * if forceName is in myForces, then it is moved to myRemovedForces
+     * if forceName is in myRemovedForces, then it is moved to myForces
+     * if forceName is in neither, then it is created with default values
+     * and put into myForces
+     * 
+     * @param forceName
+     */
+    public void toggleForceByName (String forceName) {
+        boolean forceExists = false;
+        for (Force force : myForces) {
+            if (force.FORCE_NAME.equals(forceName) || isCorrectWallID(force, forceName)) {
+                toggleForce(force);
+                forceExists = true;
+            }
+        }
+        if (!forceExists) {
+            for (Force force : myRemovedForces) {
+                if (force.FORCE_NAME.equals(forceName) || isCorrectWallID(force, forceName)) {
+                    toggleForce(force);
+                    forceExists = true;
+                }
+            }
+        }
+        if (!forceExists) {
+            addDefaultForce(forceName);
+        }
+    }
+
+    public void addDefaultForce (String forceName) {
+        if (forceName.equals("gravity")) {
+            myForces.add(new Gravity());
+        }
+        else if (forceName.equals("Viscosity")) {
+            myForces.add(new Viscosity());
+        }
+        else if (forceName.equals("centerOfMass")) {
+            myForces.add(new CenterOfMass());
+        }
+        else if (forceName.equals("1")) {
+            myForces.add(new Repulsion(1));
+        }
+        else if (forceName.equals("2")) {
+            myForces.add(new Repulsion(2));
+        }
+        else if (forceName.equals("3")) {
+            myForces.add(new Repulsion(3));
+        }
+        else if (forceName.equals("4")) {
+            myForces.add(new Repulsion(4));
+        }
+    }
+
+    private boolean isCorrectWallID (Force force, String forceName) {
+        if (!force.FORCE_NAME.equals("repulsion")) return false;
+        if (!force.getClass().equals(Repulsion.class)) return false;
+        return (((Repulsion) force).getWallID() == Integer.parseInt(forceName));
+    }
+
+    public void toggleForce (Force force) {
+        if (myForces.contains(force)) {
+            myRemovedForces.add(force);
+            myForces.remove(force);
+        }
+        else {
+            myForces.add(force);
+            myRemovedForces.remove(force);
+        }
     }
 
     public void clearAll () {

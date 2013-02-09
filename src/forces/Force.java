@@ -12,5 +12,7 @@ import util.Vector;
  */
 public interface Force {
 
+    public final String FORCE_NAME = "force";
+
     public Vector calculateForce (Mass mass);
 }
