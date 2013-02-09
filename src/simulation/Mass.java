@@ -103,4 +103,8 @@ public class Mass extends Sprite {
 	public double getMass() {
 		return myMass;
 	}
+	
+	public void setSize(int x, int y) {
+	    mySize = new Dimension(x, y);
+	}
 }

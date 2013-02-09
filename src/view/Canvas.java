@@ -33,7 +33,7 @@ import simulation.Model;
  * 
  * @author Robert C Duvall
  */
-public class Canvas extends JComponent {
+public class Canvas extends JComponent{
     // default serialization ID
     private static final long serialVersionUID = 1L;
     // animate 25 times per second if possible
@@ -56,7 +56,8 @@ public class Canvas extends JComponent {
     private int myLastKeyPressed;
     private Point myLastMousePosition;
     private Set<Integer> myKeys;
-
+    
+    private Factory myFactory;
 
     /**
      * Create a panel so that it knows its size
@@ -69,6 +70,7 @@ public class Canvas extends JComponent {
         setFocusable(true);
         requestFocus();
         setInputListeners();
+        myFactory = new Factory();
     }
 
     /**
@@ -155,6 +157,12 @@ public class Canvas extends JComponent {
             @Override
             public void keyPressed (KeyEvent e) {
                 myLastKeyPressed = e.getKeyCode();
+                if(myLastKeyPressed == KeyEvent.VK_N) {
+                	addObjects();
+                } else if (myLastKeyPressed == KeyEvent.VK_C) {
+                        clearAll();
+
+                }
                 myKeys.add(e.getKeyCode());
             }
             @Override
@@ -185,14 +193,19 @@ public class Canvas extends JComponent {
 
     // load model from file chosen by user
     private void loadModel () {
-        Factory factory = new Factory();
-        int response = INPUT_CHOOSER.showOpenDialog(null);
+        addObjects();
+        addObjects();
+    }
+    
+    private void addObjects(){
+    	int response = INPUT_CHOOSER.showOpenDialog(null);
         if (response == JFileChooser.APPROVE_OPTION) {
-            factory.loadModel(mySimulation, INPUT_CHOOSER.getSelectedFile());
-        }
-        int response2 = INPUT_CHOOSER.showOpenDialog(null);
-        if (response2 == JFileChooser.APPROVE_OPTION) {
-            factory.loadModel(mySimulation, INPUT_CHOOSER.getSelectedFile());
+            myFactory.loadModel(mySimulation, INPUT_CHOOSER.getSelectedFile());
         }
     }
+    
+    private void clearAll(){
+    	mySimulation.clearAll();
+    }
+
 }

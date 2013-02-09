@@ -24,7 +24,7 @@ public abstract class Sprite {
     // state
     private Location myCenter;
     private Vector myVelocity;
-    private Dimension mySize;
+    protected Dimension mySize;
     private Pixmap myView;
     // keep copies of the original state so shape can be reset as needed
     private Location myOriginalCenter;
