@@ -191,17 +191,22 @@ public class Canvas extends JComponent {
             @Override
             public void mouseDragged (MouseEvent e) {
                 myLastMousePosition = e.getPoint();
+                mySimulation.dragTempSpring(myLastMousePosition);
             }
         });
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed (MouseEvent e) {
+            	System.out.println("mouse pressed");
                 myLastMousePosition = e.getPoint();
+                mySimulation.createTempSpring(myLastMousePosition);
             }
 
             @Override
             public void mouseReleased (MouseEvent e) {
+            	System.out.println("mouse released");
                 myLastMousePosition = NO_MOUSE_PRESSED;
+                mySimulation.removeTempObjects();
             }
         });
     }
