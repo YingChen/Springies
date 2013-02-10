@@ -176,8 +176,12 @@ public class Canvas extends JComponent {
                     mySimulation.toggleForceByName("3");
                 } else if (myLastKeyPressed == KeyEvent.VK_4) {
                     mySimulation.toggleForceByName("4");
+                } else if (myLastKeyPressed == KeyEvent.VK_UP) {
+                    mySimulation.incrementSize();
+                } else if (myLastKeyPressed == KeyEvent.VK_DOWN) {
+                    mySimulation.decrementSize();
                 }
-                myKeys.add(e.getKeyCode());
+                    myKeys.add(e.getKeyCode());
             }
 
             @Override
