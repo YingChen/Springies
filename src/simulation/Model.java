@@ -176,6 +176,10 @@ public class Model {
     public void createTempSpring (Point position) {
         tempMass = new Mass(position.getX(), position.getY(), 0);
         Mass closestMass = findClosestMass(position);
+        //Check if the closest Mass is null. Return if yes
+        if(closestMass==null)
+        	return;
+        
         tempSpring =
                 new Spring(tempMass, closestMass, length(position, closestMass.getX(),
                                                          closestMass.getY()), 0.5);

@@ -49,7 +49,7 @@ public class CenterOfMass extends Vector implements Force {
      */
     @Override
     public Vector calculateForce (Mass mass) {
-        getCenterOfMass();
+    	centerOfMass = getCenterOfMass();
         Point2D myPosition = new Point2D.Double(mass.getX(), mass.getY());
         double weight = magnitude * Math.exp(exponentValue);
 
@@ -78,7 +78,7 @@ public class CenterOfMass extends Vector implements Force {
     /**
      * Calculate the center of all the masses
      */
-    private void getCenterOfMass () {
+    private Point2D getCenterOfMass () {
         double totalMass = 0;
         double x = 0;
         double y = 0;
@@ -87,7 +87,7 @@ public class CenterOfMass extends Vector implements Force {
             x = x + m.getX() * m.getMass();
             y = y + m.getY() * m.getMass();
         }
-        centerOfMass = new Point2D.Double(x / totalMass, y / totalMass);
+        return new Point2D.Double(x / totalMass, y / totalMass);
     }
 
 }

@@ -20,7 +20,6 @@ import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.Timer;
 import forces.ForceNames;
-import forces.Gravity;
 import simulation.Factory;
 import simulation.Model;
 
