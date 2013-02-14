@@ -22,6 +22,8 @@ import javax.swing.Timer;
 import forces.ForceNames;
 import simulation.Factory;
 import simulation.Model;
+import tempObject.TempObject;
+import tempObject.TempSpring;
 
 
 /**
@@ -59,6 +61,8 @@ public class Canvas extends JComponent {
     private Set<Integer> myKeys;
 
     private Factory myFactory;
+    
+    private TempObject myTempObject = null;
 
     /**
      * Create a panel so that it knows its size
@@ -195,22 +199,26 @@ public class Canvas extends JComponent {
             @Override
             public void mouseDragged (MouseEvent e) {
                 myLastMousePosition = e.getPoint();
-                mySimulation.dragTempSpring(myLastMousePosition);
+                if(myTempObject != null){
+                	myTempObject.dragTempObject(myLastMousePosition);
+                }
             }
         });
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed (MouseEvent e) {
-            	System.out.println("mouse pressed");
                 myLastMousePosition = e.getPoint();
-                mySimulation.createTempSpring(myLastMousePosition);
+                myTempObject = new TempSpring(mySimulation);
+                myTempObject.createTempObject(myLastMousePosition);
             }
 
             @Override
             public void mouseReleased (MouseEvent e) {
-            	System.out.println("mouse released");
                 myLastMousePosition = NO_MOUSE_PRESSED;
-                mySimulation.removeTempObjects();
+                if(myTempObject != null){
+                	myTempObject.deleteTempObject();
+                	myTempObject = null;
+                }
             }
         });
     }

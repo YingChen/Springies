@@ -2,7 +2,6 @@ package simulation;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.util.List;
 import java.util.ArrayList;
 import forces.*;
@@ -21,10 +20,7 @@ public class Model {
     private List<Mass> myMasses;
     private List<Spring> mySprings;
     private List<Force> myForces;
-    private List<Force> myRemovedForces;
 
-    private Spring tempSpring;
-    private Mass tempMass;
 
     /**
      * Create a game of the given size with the given display for its shapes.
@@ -34,7 +30,7 @@ public class Model {
         myMasses = new ArrayList<Mass>();
         mySprings = new ArrayList<Spring>();
         myForces = new ArrayList<Force>();
-        myRemovedForces = new ArrayList<Force>();
+        //myRemovedForces = new ArrayList<Force>();
     }
 
     /**
@@ -172,52 +168,17 @@ public class Model {
         mySprings.clear();
         myForces.clear();
     }
-
-    public void createTempSpring (Point position) {
-        tempMass = new Mass(position.getX(), position.getY(), 0);
-        Mass closestMass = findClosestMass(position);
-        //Check if the closest Mass is null. Return if yes
-        if(closestMass==null)
-        	return;
-        
-        tempSpring =
-                new Spring(tempMass, closestMass, length(position, closestMass.getX(),
-                                                         closestMass.getY()), 0.5);
-
-        myMasses.add(tempMass);
-        mySprings.add(tempSpring);
+    
+    public List<Mass> getMassList(){
+    	return myMasses;
     }
-
-    private Mass findClosestMass (Point p) {
-        Mass closestMass = null;
-        double closestLength = Double.POSITIVE_INFINITY;
-        for (Mass m : myMasses) {
-            double length = length(p, m.getX(), m.getY());
-            // System.out.println("length is "+length);
-            if (length < closestLength) {
-                closestMass = m;
-                closestLength = length;
-            }
-        }
-        if (closestMass == null)
-            System.out.println("NUll!!!!");
-        return closestMass;
+    
+    public void removeObject(Mass m){
+    	myMasses.remove(m);
     }
-
-    private double length (Point p, double x, double y) {
-        // System.out.println(p.getX()+" "+p.getY()+" "+x+" "+y);
-        return Math.pow((p.getX() - x), 2) + Math.pow((p.getY() - y), 2);
-    }
-
-    public void dragTempSpring (Point p) {
-        tempMass.setCenter(p.getX(), p.getY());
-    }
-
-    public void removeTempObjects () {
-        myMasses.remove(tempMass);
-        mySprings.remove(tempSpring);
-        tempMass = null;
-        tempSpring = null;
+    
+    public void removeObject(Spring s){
+    	mySprings.remove(s);
     }
 
 }
