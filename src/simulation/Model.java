@@ -71,7 +71,7 @@ public class Model {
         Dimension d = new Dimension(myView.getWidth() + 10, myView.getHeight() + 10);
         myView.setSize(d);
     }
-    
+
     public void decrementSize () {
         Dimension d = new Dimension(myView.getWidth() - 10, myView.getHeight() - 10);
         myView.setSize(d);
@@ -80,7 +80,8 @@ public class Model {
     public void updateForces () {
         for (Mass m : myMasses) {
             for (Force force : myForces) {
-                m.setForce(force);
+                if (force.isInEffect())
+                    m.setForce(force);
             }
         }
     }
@@ -118,32 +119,38 @@ public class Model {
     public void toggleForceByName (String forceName) {
         boolean forceExists = false;
         for (Force force : myForces) {
-            if (force.FORCE_NAME.equals(forceName) || isCorrectWallID(force, forceName)) {
-                toggleForce(force);
+            if (force.getName().equals(forceName) || isCorrectWallID(force, forceName)) {
+                force.toggleEffect();
                 forceExists = true;
             }
         }
-        if (!forceExists) {
-            for (Force force : myRemovedForces) {
-                if (force.FORCE_NAME.equals(forceName) || isCorrectWallID(force, forceName)) {
-                    toggleForce(force);
-                    forceExists = true;
-                }
-            }
-        }
+
         if (!forceExists) {
             addDefaultForce(forceName);
         }
     }
 
-    public void addDefaultForce (String forceName) {
-        if (forceName.equals("gravity")) {
+    private boolean isCorrectWallID (Force force, String forceName) {
+        if (!force.getName().equals(ForceNames.VISCOSITY)) return false;
+        if (!force.getClass().equals(Repulsion.class)) return false;
+        return (((Repulsion) force).getWallID() == Integer.parseInt(forceName));
+    }
+
+    /**
+     * I thought about shifting this responsibility to the Creator.java class... but
+     * then decided against it, because I would still need the same if structure
+     * in Creator, so it wouldn't save lines of code per se.
+     * 
+     * @param forceName
+     */
+    private void addDefaultForce (String forceName) {
+        if (forceName.equals(ForceNames.GRAVITY)) {
             myForces.add(new Gravity());
         }
-        else if (forceName.equals("Viscosity")) {
+        else if (forceName.equals(ForceNames.VISCOSITY)) {
             myForces.add(new Viscosity());
         }
-        else if (forceName.equals("centerOfMass")) {
+        else if (forceName.equals(ForceNames.CENTER_OF_MASS)) {
             myForces.add(new CenterOfMass());
         }
         else if (forceName.equals("1")) {
@@ -157,23 +164,6 @@ public class Model {
         }
         else if (forceName.equals("4")) {
             myForces.add(new Repulsion(4));
-        }
-    }
-
-    private boolean isCorrectWallID (Force force, String forceName) {
-        if (!force.FORCE_NAME.equals("repulsion")) return false;
-        if (!force.getClass().equals(Repulsion.class)) return false;
-        return (((Repulsion) force).getWallID() == Integer.parseInt(forceName));
-    }
-
-    public void toggleForce (Force force) {
-        if (myForces.contains(force)) {
-            myRemovedForces.add(force);
-            myForces.remove(force);
-        }
-        else {
-            myForces.add(force);
-            myRemovedForces.remove(force);
         }
     }
 

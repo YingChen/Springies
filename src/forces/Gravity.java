@@ -14,18 +14,34 @@ public class Gravity extends Vector implements Force {
 
     private int myDirection;
     private int myMagnitude;
+    private boolean isInEffect;
 
-    public final String FORCE_NAME = "gravity";
+    private final String FORCE_NAME = "gravity";
 
     public Gravity (int direction, int magnitude) {
         myDirection = direction;
         myMagnitude = magnitude;
+        isInEffect = true;
     }
 
     public Gravity () {
         myDirection = 0;
         myMagnitude = 1;
     }
+    
+    public boolean isInEffect () {
+        return isInEffect;
+    }
+    
+    @Override
+    public void toggleEffect () {
+        isInEffect = !isInEffect;
+    }
+
+    public String getName () {
+        return FORCE_NAME;
+    }
+    
 
     /**
      * Calculate the force on the mass

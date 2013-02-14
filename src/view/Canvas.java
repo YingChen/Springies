@@ -19,6 +19,7 @@ import java.util.TreeSet;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.Timer;
+import forces.ForceNames;
 import forces.Gravity;
 import simulation.Factory;
 import simulation.Model;
@@ -163,11 +164,11 @@ public class Canvas extends JComponent {
                 } else if (myLastKeyPressed == KeyEvent.VK_C) {
                     clearAll();
                 } else if (myLastKeyPressed == KeyEvent.VK_G) {
-                    mySimulation.toggleForceByName("gravity");
+                    mySimulation.toggleForceByName(ForceNames.GRAVITY);
                 } else if (myLastKeyPressed == KeyEvent.VK_V) {
-                    mySimulation.toggleForceByName("viscosity");
+                    mySimulation.toggleForceByName(ForceNames.VISCOSITY);
                 } else if (myLastKeyPressed == KeyEvent.VK_M) {
-                    mySimulation.toggleForceByName("centerOfMass");
+                    mySimulation.toggleForceByName(ForceNames.CENTER_OF_MASS);
                 } else if (myLastKeyPressed == KeyEvent.VK_1) {
                     mySimulation.toggleForceByName("1");
                 } else if (myLastKeyPressed == KeyEvent.VK_2) {

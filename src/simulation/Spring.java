@@ -15,8 +15,8 @@ import util.Vector;
  */
 public class Spring extends Sprite {
 	// reasonable default values
-	public static final Pixmap DEFUALT_IMAGE = new Pixmap("spring.gif");
-	public static final int IMAGE_HEIGHT = 20;
+	private static final Pixmap DEFUALT_IMAGE = new Pixmap("spring.gif");
+	private static final int IMAGE_HEIGHT = 20;
 
 	protected Mass myStart;
 	protected Mass myEnd;

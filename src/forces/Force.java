@@ -12,7 +12,12 @@ import util.Vector;
  */
 public interface Force {
 
-    public final String FORCE_NAME = "force";
 
     public Vector calculateForce (Mass mass);
+    
+    public String getName ();
+    
+    public boolean isInEffect ();
+    
+    public void toggleEffect ();
 }

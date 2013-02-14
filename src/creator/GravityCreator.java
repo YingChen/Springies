@@ -1,10 +1,9 @@
 package creator;
 
 import java.util.Scanner;
-
 import forces.Gravity;
-
 import simulation.Factory;
+
 
 /**
  * This creator creates gravity force objects
@@ -14,16 +13,16 @@ import simulation.Factory;
  */
 public class GravityCreator extends Creator {
 
-	public GravityCreator(Factory f) {
-		super(f);
-	}
+    public GravityCreator (Factory f) {
+        super(f);
+    }
 
-	@Override
-	public void create(Scanner line) {
-		int direction = line.nextInt();
-		int magnitude = line.nextInt();
+    @Override
+    public void create (Scanner line) {
+        int direction = line.nextInt();
+        int magnitude = line.nextInt();
 
-		getFactory().addForceToModel(new Gravity(direction, magnitude));
-	}
+        getFactory().addForceToModel(new Gravity(direction, magnitude));
+    }
 
 }

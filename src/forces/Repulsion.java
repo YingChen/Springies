@@ -14,16 +14,18 @@ import view.Canvas;
  */
 public class Repulsion extends Vector implements Force {
 
-    public final String FORCE_NAME = "repulsion";
+    private final String FORCE_NAME = "repulsion";
 
     private int wallID;
     private double magnitude;
     private double exponentValue;
+    private boolean isInEffect;
 
     public Repulsion (int wall, double mag, double exp) {
         wallID = wall;
         magnitude = mag;
         exponentValue = exp;
+        isInEffect = true;
     }
 
     public Repulsion (int wall) {
@@ -31,7 +33,15 @@ public class Repulsion extends Vector implements Force {
         magnitude = 1;
         exponentValue = 1;
     }
+    
+    public boolean isInEffect () {
+        return isInEffect;
+    }
 
+    public String getName () {
+        return FORCE_NAME;
+    }
+    
     public int getWallID () {
         return wallID;
     }
@@ -76,6 +86,11 @@ public class Repulsion extends Vector implements Force {
         Vector temp = new Vector(vectorDirection, vectorMagnitude);
         temp.sum(mass.getVelocity());
         return temp;
+    }
+
+    @Override
+    public void toggleEffect () {
+        isInEffect = !isInEffect;
     }
 
 }
