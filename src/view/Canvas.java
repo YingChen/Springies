@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.swing.JComponent;
@@ -62,6 +63,8 @@ public class Canvas extends JComponent {
 
     private Factory myFactory;
     
+    private HashMap<Integer, String> keyInputMap;
+    
     private TempObject myTempObject = null;
 
     /**
@@ -76,6 +79,18 @@ public class Canvas extends JComponent {
         requestFocus();
         setInputListeners();
         myFactory = new Factory();
+        initMap();
+    }
+    
+    private void initMap(){
+    	keyInputMap = new HashMap<Integer,String>();
+    	keyInputMap.put(KeyEvent.VK_G, ForceNames.GRAVITY);
+    	keyInputMap.put(KeyEvent.VK_V, ForceNames.VISCOSITY);
+    	keyInputMap.put(KeyEvent.VK_M, ForceNames.CENTER_OF_MASS);
+    	keyInputMap.put(KeyEvent.VK_1, "1");
+    	keyInputMap.put(KeyEvent.VK_2, "2");
+    	keyInputMap.put(KeyEvent.VK_3, "3");
+    	keyInputMap.put(KeyEvent.VK_4, "4");
     }
 
     /**
@@ -166,24 +181,12 @@ public class Canvas extends JComponent {
                     addObjects();
                 } else if (myLastKeyPressed == KeyEvent.VK_C) {
                     clearAll();
-                } else if (myLastKeyPressed == KeyEvent.VK_G) {
-                    mySimulation.toggleForceByName(ForceNames.GRAVITY);
-                } else if (myLastKeyPressed == KeyEvent.VK_V) {
-                    mySimulation.toggleForceByName(ForceNames.VISCOSITY);
-                } else if (myLastKeyPressed == KeyEvent.VK_M) {
-                    mySimulation.toggleForceByName(ForceNames.CENTER_OF_MASS);
-                } else if (myLastKeyPressed == KeyEvent.VK_1) {
-                    mySimulation.toggleForceByName("1");
-                } else if (myLastKeyPressed == KeyEvent.VK_2) {
-                    mySimulation.toggleForceByName("2");
-                } else if (myLastKeyPressed == KeyEvent.VK_3) {
-                    mySimulation.toggleForceByName("3");
-                } else if (myLastKeyPressed == KeyEvent.VK_4) {
-                    mySimulation.toggleForceByName("4");
                 } else if (myLastKeyPressed == KeyEvent.VK_UP) {
                     mySimulation.incrementSize();
                 } else if (myLastKeyPressed == KeyEvent.VK_DOWN) {
                     mySimulation.decrementSize();
+                } else{
+                	mySimulation.toggleForceByName(keyInputMap.get(myLastKeyPressed));
                 }
                     myKeys.add(e.getKeyCode());
             }
