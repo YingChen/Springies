@@ -67,13 +67,14 @@ public class Model {
      * update forces
      */
 
-    public void incrementSize () {
-        Dimension d = new Dimension(myView.getWidth() + 10, myView.getHeight() + 10);
+    public void incrementSize (int size) {
+        Dimension d = new Dimension(myView.getWidth() + size, myView.getHeight() + size);
         myView.setSize(d);
     }
 
-    public void decrementSize () {
-        Dimension d = new Dimension(myView.getWidth() - 10, myView.getHeight() - 10);
+    public void decrementSize (int size) {
+        if (myView.getWidth() < 0 || myView.getHeight() > 0) return;
+        Dimension d = new Dimension(myView.getWidth() - size, myView.getHeight() - size);
         myView.setSize(d);
     }
 

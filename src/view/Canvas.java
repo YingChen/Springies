@@ -42,6 +42,7 @@ public class Canvas extends JComponent {
     public static final int FRAMES_PER_SECOND = 25;
     // better way to think about timed events (in milliseconds)
     public static final int ONE_SECOND = 1000;
+    public static final int STEP_SIZE = 10;
     public static final int DEFAULT_DELAY = ONE_SECOND / FRAMES_PER_SECOND;
     // only one so that it maintains user's preferences
     private static final JFileChooser INPUT_CHOOSER =
@@ -178,9 +179,9 @@ public class Canvas extends JComponent {
                 } else if (myLastKeyPressed == KeyEvent.VK_4) {
                     mySimulation.toggleForceByName("4");
                 } else if (myLastKeyPressed == KeyEvent.VK_UP) {
-                    mySimulation.incrementSize();
+                    mySimulation.incrementSize(STEP_SIZE);
                 } else if (myLastKeyPressed == KeyEvent.VK_DOWN) {
-                    mySimulation.decrementSize();
+                    mySimulation.decrementSize(STEP_SIZE);
                 }
                     myKeys.add(e.getKeyCode());
             }
