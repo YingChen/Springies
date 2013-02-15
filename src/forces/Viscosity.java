@@ -24,7 +24,8 @@ public class Viscosity extends Vector implements Force {
     }
 
     public Viscosity () {
-        kValue = 1;
+        //kValue = 1;
+    	this(-1);
     }
     
     public boolean isInEffect () {

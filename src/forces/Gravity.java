@@ -25,8 +25,9 @@ public class Gravity extends Vector implements Force {
     }
 
     public Gravity () {
-        myDirection = 0;
-        myMagnitude = 1;
+        //myDirection = 0;
+        //myMagnitude = 1;
+    	this(0,1);
     }
     
     public boolean isInEffect () {

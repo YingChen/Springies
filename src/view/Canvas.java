@@ -23,8 +23,8 @@ import javax.swing.Timer;
 import forces.ForceNames;
 import simulation.Factory;
 import simulation.Model;
-import tempObject.TempObject;
-import tempObject.TempSpring;
+import tempObjectManager.TempObjectManager;
+import tempObjectManager.TempSpringManager;
 
 
 /**
@@ -65,7 +65,7 @@ public class Canvas extends JComponent {
     
     private HashMap<Integer, String> keyInputMap;
     
-    private TempObject myTempObject = null;
+    private TempObjectManager myTempObjectManager = null;
 
     /**
      * Create a panel so that it knows its size
@@ -178,16 +178,20 @@ public class Canvas extends JComponent {
             public void keyPressed (KeyEvent e) {
                 myLastKeyPressed = e.getKeyCode();
                 if (myLastKeyPressed == KeyEvent.VK_N) {
-                    addObjects();
+                    addObjects("Please select another file for objects");
                 } else if (myLastKeyPressed == KeyEvent.VK_C) {
                     clearAll();
                 } else if (myLastKeyPressed == KeyEvent.VK_UP) {
                     mySimulation.incrementSize();
                 } else if (myLastKeyPressed == KeyEvent.VK_DOWN) {
                     mySimulation.decrementSize();
-                } else{
+                } else if(keyInputMap.containsKey(myLastMousePosition)){
                 	mySimulation.toggleForceByName(keyInputMap.get(myLastKeyPressed));
                 }
+                else
+                	//Add warning if there is a invalid key input, solve the null pointer exception
+                	System.out.println("Invalid key input");
+                
                     myKeys.add(e.getKeyCode());
             }
 
@@ -202,8 +206,8 @@ public class Canvas extends JComponent {
             @Override
             public void mouseDragged (MouseEvent e) {
                 myLastMousePosition = e.getPoint();
-                if(myTempObject != null){
-                	myTempObject.dragTempObject(myLastMousePosition);
+                if(myTempObjectManager != null){
+                	myTempObjectManager.dragTempObject(myLastMousePosition);
                 }
             }
         });
@@ -211,16 +215,16 @@ public class Canvas extends JComponent {
             @Override
             public void mousePressed (MouseEvent e) {
                 myLastMousePosition = e.getPoint();
-                myTempObject = new TempSpring(mySimulation);
-                myTempObject.createTempObject(myLastMousePosition);
+                myTempObjectManager = new TempSpringManager(mySimulation);
+                myTempObjectManager.createTempObject(myLastMousePosition);
             }
 
             @Override
             public void mouseReleased (MouseEvent e) {
                 myLastMousePosition = NO_MOUSE_PRESSED;
-                if(myTempObject != null){
-                	myTempObject.deleteTempObject();
-                	myTempObject = null;
+                if(myTempObjectManager != null){
+                	myTempObjectManager.deleteTempObject();
+                	myTempObjectManager = null;
                 }
             }
         });
@@ -228,12 +232,13 @@ public class Canvas extends JComponent {
 
     // load model from file chosen by user
     private void loadModel () {
-        addObjects();
-        addObjects();
+        addObjects("Please select a file for objects");
+        addObjects("Please select a file for forces");
     }
 
-    private void addObjects () {
-        int response = INPUT_CHOOSER.showOpenDialog(null);
+    private void addObjects (String guideline) {
+    	System.out.println(guideline);
+        int response = INPUT_CHOOSER.showDialog(null, guideline);
         if (response == JFileChooser.APPROVE_OPTION) {
             myFactory.loadModel(mySimulation, INPUT_CHOOSER.getSelectedFile());
         }

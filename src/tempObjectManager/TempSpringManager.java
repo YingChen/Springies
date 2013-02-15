@@ -1,4 +1,4 @@
-package tempObject;
+package tempObjectManager;
 
 import java.awt.Point;
 
@@ -7,17 +7,18 @@ import simulation.Model;
 import simulation.Spring;
 
 /**
- * This works as a temporary spring created when clicking the mouse during the
- * game
+ * This works as a temporary spring manager that creates, modifies and removes
+ * the object
+ * 
  * 
  * @author Ying Chen
  * 
  */
-public class TempSpring extends TempObject {
+public class TempSpringManager extends TempObjectManager {
 	private Mass tempMass;
 	private Spring tempSpring;
 
-	public TempSpring(Model m) {
+	public TempSpringManager(Model m) {
 		super(m);
 	}
 

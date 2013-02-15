@@ -1,4 +1,4 @@
-package tempObject;
+package tempObjectManager;
 
 import java.awt.Point;
 import java.util.List;
@@ -7,15 +7,16 @@ import simulation.Mass;
 import simulation.Model;
 
 /**
- * This works as the temporary object created during the game.
+ * This works as the temporary object Manager created in the game. This manager
+ * works to create, update and delete the object.
  * 
  * @author Ying Chen
  * 
  */
-public abstract class TempObject {
+public abstract class TempObjectManager {
 	private Model myModel;
 
-	public TempObject(Model m) {
+	public TempObjectManager(Model m) {
 		myModel = m;
 	}
 
@@ -27,7 +28,7 @@ public abstract class TempObject {
 	public abstract void createTempObject(Point position);
 
 	/**
-	 * Drag the temporaray object to a new position
+	 * Drag the temporary object to a new position
 	 * 
 	 * @param position
 	 */
