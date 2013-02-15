@@ -29,11 +29,9 @@ public class Repulsion extends Vector implements Force {
     }
 
     public Repulsion (int wall) {
-        wallID = wall;
-        magnitude = 1;
-        exponentValue = 1;
+        this(wall, 1, 1);
     }
-    
+
     public boolean isInEffect () {
         return isInEffect;
     }
@@ -41,7 +39,7 @@ public class Repulsion extends Vector implements Force {
     public String getName () {
         return FORCE_NAME;
     }
-    
+
     public int getWallID () {
         return wallID;
     }

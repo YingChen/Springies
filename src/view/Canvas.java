@@ -14,15 +14,17 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.Timer;
 import forces.ForceNames;
-import forces.Gravity;
 import simulation.Factory;
 import simulation.Model;
+import tempObjectManager.TempObjectManager;
+import tempObjectManager.TempSpringManager;
 
 
 /**
@@ -51,6 +53,8 @@ public class Canvas extends JComponent {
     public static final int NO_KEY_PRESSED = -1;
     public static final Point NO_MOUSE_PRESSED = null;
 
+    public static final String MESSAGE_OBJECT_SELECT = "Please select a file for objects";
+    public static final String MESSAGE_FILE_SELECT = "Please select a file for forces";
     // drives the animation
     private Timer myTimer;
     // game to be animated
@@ -61,6 +65,10 @@ public class Canvas extends JComponent {
     private Set<Integer> myKeys;
 
     private Factory myFactory;
+
+    private HashMap<Integer, String> keyInputMap;
+
+    private TempObjectManager myTempObjectManager = null;
 
     /**
      * Create a panel so that it knows its size
@@ -74,6 +82,18 @@ public class Canvas extends JComponent {
         requestFocus();
         setInputListeners();
         myFactory = new Factory();
+        initMap();
+    }
+
+    private void initMap () {
+        keyInputMap = new HashMap<Integer, String>();
+        keyInputMap.put(KeyEvent.VK_G, ForceNames.GRAVITY);
+        keyInputMap.put(KeyEvent.VK_V, ForceNames.VISCOSITY);
+        keyInputMap.put(KeyEvent.VK_M, ForceNames.CENTER_OF_MASS);
+        keyInputMap.put(KeyEvent.VK_1, "1");
+        keyInputMap.put(KeyEvent.VK_2, "2");
+        keyInputMap.put(KeyEvent.VK_3, "3");
+        keyInputMap.put(KeyEvent.VK_4, "4");
     }
 
     /**
@@ -161,29 +181,26 @@ public class Canvas extends JComponent {
             public void keyPressed (KeyEvent e) {
                 myLastKeyPressed = e.getKeyCode();
                 if (myLastKeyPressed == KeyEvent.VK_N) {
-                    addObjects();
-                } else if (myLastKeyPressed == KeyEvent.VK_C) {
+                    addObjects(MESSAGE_OBJECT_SELECT);
+                }
+                else if (myLastKeyPressed == KeyEvent.VK_C) {
                     clearAll();
-                } else if (myLastKeyPressed == KeyEvent.VK_G) {
-                    mySimulation.toggleForceByName(ForceNames.GRAVITY);
-                } else if (myLastKeyPressed == KeyEvent.VK_V) {
-                    mySimulation.toggleForceByName(ForceNames.VISCOSITY);
-                } else if (myLastKeyPressed == KeyEvent.VK_M) {
-                    mySimulation.toggleForceByName(ForceNames.CENTER_OF_MASS);
-                } else if (myLastKeyPressed == KeyEvent.VK_1) {
-                    mySimulation.toggleForceByName("1");
-                } else if (myLastKeyPressed == KeyEvent.VK_2) {
-                    mySimulation.toggleForceByName("2");
-                } else if (myLastKeyPressed == KeyEvent.VK_3) {
-                    mySimulation.toggleForceByName("3");
-                } else if (myLastKeyPressed == KeyEvent.VK_4) {
-                    mySimulation.toggleForceByName("4");
-                } else if (myLastKeyPressed == KeyEvent.VK_UP) {
+                }
+                else if (myLastKeyPressed == KeyEvent.VK_UP) {
                     mySimulation.incrementSize(STEP_SIZE);
-                } else if (myLastKeyPressed == KeyEvent.VK_DOWN) {
+                }
+                else if (myLastKeyPressed == KeyEvent.VK_DOWN) {
+                    System.out.println("down");
                     mySimulation.decrementSize(STEP_SIZE);
                 }
-                    myKeys.add(e.getKeyCode());
+                else if (keyInputMap.containsKey(myLastKeyPressed)) {
+                    mySimulation.toggleForceByName(keyInputMap.get(myLastKeyPressed));
+                }
+                else
+                // Add warning if there is a invalid key input, solve the null pointer exception
+                //System.out.println("Invalid key input");
+
+                myKeys.add(e.getKeyCode());
             }
 
             @Override
@@ -197,34 +214,39 @@ public class Canvas extends JComponent {
             @Override
             public void mouseDragged (MouseEvent e) {
                 myLastMousePosition = e.getPoint();
-                mySimulation.dragTempSpring(myLastMousePosition);
+                if (myTempObjectManager != null) {
+                    myTempObjectManager.dragTempObject(myLastMousePosition);
+                }
             }
         });
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed (MouseEvent e) {
-            	System.out.println("mouse pressed");
                 myLastMousePosition = e.getPoint();
-                mySimulation.createTempSpring(myLastMousePosition);
+                myTempObjectManager = new TempSpringManager(mySimulation);
+                myTempObjectManager.createTempObject(myLastMousePosition);
             }
 
             @Override
             public void mouseReleased (MouseEvent e) {
-            	System.out.println("mouse released");
                 myLastMousePosition = NO_MOUSE_PRESSED;
-                mySimulation.removeTempObjects();
+                if (myTempObjectManager != null) {
+                    myTempObjectManager.deleteTempObject();
+                    myTempObjectManager = null;
+                }
             }
         });
     }
 
     // load model from file chosen by user
     private void loadModel () {
-        addObjects();
-        addObjects();
+        addObjects(MESSAGE_OBJECT_SELECT);
+        addObjects(MESSAGE_FILE_SELECT);
     }
 
-    private void addObjects () {
-        int response = INPUT_CHOOSER.showOpenDialog(null);
+    private void addObjects (String guideline) {
+        System.out.println(guideline);
+        int response = INPUT_CHOOSER.showDialog(null, guideline);
         if (response == JFileChooser.APPROVE_OPTION) {
             myFactory.loadModel(mySimulation, INPUT_CHOOSER.getSelectedFile());
         }

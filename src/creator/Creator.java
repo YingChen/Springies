@@ -1,8 +1,8 @@
 package creator;
 
 import java.util.Scanner;
-
 import simulation.Factory;
+
 
 /**
  * This class performs as superclass for all classes that create specific
@@ -13,21 +13,21 @@ import simulation.Factory;
  */
 
 public abstract class Creator {
-	private Factory myFactory;
+    private Factory myFactory;
 
-	public Creator(Factory f) {
-		myFactory = f;
-	}
+    public Creator (Factory f) {
+        myFactory = f;
+    }
 
-	protected Factory getFactory() {
-		return myFactory;
-	}
+    protected Factory getFactory () {
+        return myFactory;
+    }
 
-	/**
-	 * Create a object from the content of the scanner This is usually overrode
-	 * by its concrete classes
-	 * 
-	 * @param line
-	 */
-	public abstract void create(Scanner line);
+    /**
+     * Create a object from the content of the scanner This is usually overrode
+     * by its concrete classes
+     * 
+     * @param line
+     */
+    public abstract void create (Scanner line);
 }

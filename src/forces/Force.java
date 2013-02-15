@@ -12,12 +12,11 @@ import util.Vector;
  */
 public interface Force {
 
-
     public Vector calculateForce (Mass mass);
-    
+
     public String getName ();
-    
+
     public boolean isInEffect ();
-    
+
     public void toggleEffect ();
 }

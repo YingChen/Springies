@@ -31,11 +31,11 @@ public class CenterOfMass extends Vector implements Force {
     public CenterOfMass () {
         this(1, 1);
     }
-    
+
     public boolean isInEffect () {
         return isInEffect;
     }
-    
+
     @Override
     public void toggleEffect () {
         isInEffect = !isInEffect;
@@ -44,12 +44,13 @@ public class CenterOfMass extends Vector implements Force {
     public String getName () {
         return FORCE_NAME;
     }
+
     /**
      * Calculate the force on the mass. Override the method in the super class.
      */
     @Override
     public Vector calculateForce (Mass mass) {
-        getCenterOfMass();
+        centerOfMass = getCenterOfMass();
         Point2D myPosition = new Point2D.Double(mass.getX(), mass.getY());
         double weight = magnitude * Math.exp(exponentValue);
 
@@ -60,7 +61,7 @@ public class CenterOfMass extends Vector implements Force {
         else {
             force = new Vector(centerOfMass, myPosition);
         }
-        
+
         force.setMagnitude(weight);
         return force;
 
@@ -78,16 +79,16 @@ public class CenterOfMass extends Vector implements Force {
     /**
      * Calculate the center of all the masses
      */
-    private void getCenterOfMass () {
+    private Point2D getCenterOfMass () {
         double totalMass = 0;
         double x = 0;
         double y = 0;
         for (Mass m : list) {
-            totalMass = totalMass + m.getMass();
+            totalMass += m.getMass();
             x = x + m.getX() * m.getMass();
             y = y + m.getY() * m.getMass();
         }
-        centerOfMass = new Point2D.Double(x / totalMass, y / totalMass);
+        return new Point2D.Double(x / totalMass, y / totalMass);
     }
 
 }

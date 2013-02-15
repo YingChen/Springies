@@ -2,7 +2,6 @@ package simulation;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.util.List;
 import java.util.ArrayList;
 import forces.*;
@@ -15,16 +14,13 @@ import view.Canvas;
  * @author Robert C. Duvall revised by Ying Chen
  */
 public class Model {
+
     // bounds and input for game
     private Canvas myView;
     // simulation state
     private List<Mass> myMasses;
     private List<Spring> mySprings;
     private List<Force> myForces;
-    private List<Force> myRemovedForces;
-
-    private Spring tempSpring;
-    private Mass tempMass;
 
     /**
      * Create a game of the given size with the given display for its shapes.
@@ -34,7 +30,7 @@ public class Model {
         myMasses = new ArrayList<Mass>();
         mySprings = new ArrayList<Spring>();
         myForces = new ArrayList<Force>();
-        myRemovedForces = new ArrayList<Force>();
+        // myRemovedForces = new ArrayList<Force>();
     }
 
     /**
@@ -73,7 +69,8 @@ public class Model {
     }
 
     public void decrementSize (int size) {
-        if (myView.getWidth() < 0 || myView.getHeight() > 0) return;
+        System.out.println(myView.getWidth()+" by "+myView.getHeight());
+        if (myView.getWidth() < 0 || myView.getHeight() < 0) return;
         Dimension d = new Dimension(myView.getWidth() - size, myView.getHeight() - size);
         myView.setSize(d);
     }
@@ -81,8 +78,9 @@ public class Model {
     public void updateForces () {
         for (Mass m : myMasses) {
             for (Force force : myForces) {
-                if (force.isInEffect())
-                    m.setForce(force);
+                if (force.isInEffect()) {
+                    m.applyForce(force);
+                }
             }
         }
     }
@@ -110,18 +108,20 @@ public class Model {
     }
 
     /**
-     * if forceName is in myForces, then it is moved to myRemovedForces
-     * if forceName is in myRemovedForces, then it is moved to myForces
-     * if forceName is in neither, then it is created with default values
-     * and put into myForces
+     * if forceName is in myForces, then it is moved to myRemovedForces if
+     * forceName is in myRemovedForces, then it is moved to myForces if
+     * forceName is in neither, then it is created with default values and put
+     * into myForces
      * 
      * @param forceName
      */
     public void toggleForceByName (String forceName) {
         boolean forceExists = false;
         for (Force force : myForces) {
-            if (force.getName().equals(forceName) || isCorrectWallID(force, forceName)) {
+            if (force.getName().equals(forceName)
+                || isCorrectWallID(force, forceName)) {
                 force.toggleEffect();
+                System.out.println(force.isInEffect());
                 forceExists = true;
             }
         }
@@ -132,20 +132,24 @@ public class Model {
     }
 
     private boolean isCorrectWallID (Force force, String forceName) {
-        if (!force.getName().equals(ForceNames.VISCOSITY)) return false;
-        if (!force.getClass().equals(Repulsion.class)) return false;
+        if (!force.getName().equals(ForceNames.VISCOSITY))
+            return false;
+        // if (!force.getClass().equals(Repulsion.class)) return false;
+        if (!(force instanceof Repulsion))
+            return false;
         return (((Repulsion) force).getWallID() == Integer.parseInt(forceName));
     }
 
     /**
-     * I thought about shifting this responsibility to the Creator.java class... but
-     * then decided against it, because I would still need the same if structure
-     * in Creator, so it wouldn't save lines of code per se.
+     * I thought about shifting this responsibility to the Creator.java class...
+     * but then decided against it, because I would still need the same if
+     * structure in Creator, so it wouldn't save lines of code per se.
      * 
      * @param forceName
      */
     private void addDefaultForce (String forceName) {
         if (forceName.equals(ForceNames.GRAVITY)) {
+            System.out.println("Gravity");
             myForces.add(new Gravity());
         }
         else if (forceName.equals(ForceNames.VISCOSITY)) {
@@ -174,47 +178,16 @@ public class Model {
         myForces.clear();
     }
 
-    public void createTempSpring (Point position) {
-        tempMass = new Mass(position.getX(), position.getY(), 0);
-        Mass closestMass = findClosestMass(position);
-        tempSpring =
-                new Spring(tempMass, closestMass, length(position, closestMass.getX(),
-                                                         closestMass.getY()), 0.5);
-
-        myMasses.add(tempMass);
-        mySprings.add(tempSpring);
+    public List<Mass> getMassList () {
+        return myMasses;
     }
 
-    private Mass findClosestMass (Point p) {
-        Mass closestMass = null;
-        double closestLength = Double.POSITIVE_INFINITY;
-        for (Mass m : myMasses) {
-            double length = length(p, m.getX(), m.getY());
-            // System.out.println("length is "+length);
-            if (length < closestLength) {
-                closestMass = m;
-                closestLength = length;
-            }
-        }
-        if (closestMass == null)
-            System.out.println("NUll!!!!");
-        return closestMass;
+    public void removeObject (Mass m) {
+        myMasses.remove(m);
     }
 
-    private double length (Point p, double x, double y) {
-        // System.out.println(p.getX()+" "+p.getY()+" "+x+" "+y);
-        return Math.pow((p.getX() - x), 2) + Math.pow((p.getY() - y), 2);
-    }
-
-    public void dragTempSpring (Point p) {
-        tempMass.setCenter(p.getX(), p.getY());
-    }
-
-    public void removeTempObjects () {
-        myMasses.remove(tempMass);
-        mySprings.remove(tempSpring);
-        tempMass = null;
-        tempSpring = null;
+    public void removeObject (Spring s) {
+        mySprings.remove(s);
     }
 
 }

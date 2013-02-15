@@ -25,14 +25,13 @@ public class Gravity extends Vector implements Force {
     }
 
     public Gravity () {
-        myDirection = 0;
-        myMagnitude = 1;
+        this(90, 5);
     }
-    
+
     public boolean isInEffect () {
         return isInEffect;
     }
-    
+
     @Override
     public void toggleEffect () {
         isInEffect = !isInEffect;
@@ -41,15 +40,14 @@ public class Gravity extends Vector implements Force {
     public String getName () {
         return FORCE_NAME;
     }
-    
 
     /**
      * Calculate the force on the mass
      */
     @Override
     public Vector calculateForce (Mass mass) {
-        Vector temp = mass.getVelocity();
-        temp.sum(new Vector(myDirection, myMagnitude * mass.getMass()));
-        return temp;
+        //Vector temp = mass.getVelocity();
+        //temp.sum(new Vector(myDirection, myMagnitude * mass.getMass()));
+        return new Vector(myDirection, myMagnitude * mass.getMass());
     }
 }
